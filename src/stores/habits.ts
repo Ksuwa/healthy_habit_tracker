@@ -35,7 +35,7 @@ export const useHabitsStore = defineStore('habits', () => {
         habitId: string,
         date: string
     ) => {
-        console.log('date', date)
+        if (!date) return
         const habit = habits.value.find(
             h => h.id === habitId
         )

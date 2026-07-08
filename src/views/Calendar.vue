@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useHabitsStore } from '@/stores/habits'
 import { getMonthDays } from '@/utils/dates'
+import HabitsListByDate from "@/components/HabitsListByDate.vue";
 
 const habitsStore = useHabitsStore()
 
@@ -103,21 +104,7 @@ function shiftMonth(step: number) {
 
     <aside v-if="selectedDate" class="day-details">
       <h3 class="details-title">{{ formatDateRu(selectedDate) }}</h3>
-      <div class="check-list">
-        <label
-          v-for="habit in habitsStore.habits"
-          :key="habit.id"
-          class="check-row"
-        >
-          <span class="dot" :style="{ background: habit.color }" />
-          <span class="check-name">{{ habit.name }}</span>
-          <input
-            type="checkbox"
-            :checked="habit.completedDates.includes(selectedDate)"
-            @change="habitsStore.toggleDay(habit.id, selectedDate!)"
-          />
-        </label>
-      </div>
+      <HabitsListByDate :date="selectedDate"></HabitsListByDate>
     </aside>
   </div>
 </template>
@@ -262,29 +249,4 @@ function shiftMonth(step: number) {
   text-align: center;
 }
 
-.check-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.check-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 22px;
-  color: #5a4a3a;
-}
-
-.check-name {
-  flex: 1;
-}
-
-.check-row input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: #80b918;
-  cursor: pointer;
-}
 </style>

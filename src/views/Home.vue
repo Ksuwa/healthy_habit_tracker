@@ -1,19 +1,11 @@
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
-  import { useHabitsStore } from '@/stores/habits'
   import StatCard from "@/components/StatCard.vue";
   import WelcomeCard from "@/components/WelcomeCard.vue";
+  import HabitsListByDate from "@/components/HabitsListByDate.vue";
 
   const date = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long'})
   const week = new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
-  const todayKey = new Date().toISOString().slice(0, 10)
-  const habitsStore = useHabitsStore()
-
-  onMounted(() => {
-    habitsStore.load()
-  })
-
-  const habits = ref(habitsStore.habits)
+  const today = new Date().toISOString().slice(0, 10)
 </script>
 
 <template>
@@ -23,22 +15,7 @@
       <div class="habits-today-card">
        <img class="flower-img" src="/src/assets/img/flower.png" alt="flower">
         <h2 class="title">Today's habits</h2>
-
-          <div v-for="habit in habits"
-            :key="habit.id"
-            class="habit-row">
-          <div class="habit-info">
-            <span>{{ habit.name }}</span>
-          </div>
-          <label class="custom-checkbox">
-
-          <input
-              type="checkbox"
-              :checked="habit.completedDates.includes(todayKey)"
-              @change="habitsStore.toggleDay(habit.id, todayKey)"/>
-            <span class="checkmark"></span>
-          </label>
-        </div>
+        <HabitsListByDate :date="today"></HabitsListByDate>
       </div>
     </div>
 
@@ -151,33 +128,6 @@
     color: #3a2a1a;
     font-weight: 600;
 }
-.custom-checkbox input {
-  display: none;
-}
-
-.checkmark {
-  display: block;
-  width: 22px;
-  height: 22px;
-
-  border: 2px solid #9c9c9c;
-  border-radius: 4px;
-  background: white;
-}
-
-.custom-checkbox input:checked + .checkmark {
-  background: #67a95f;
-  border-color: #67a95f;
-  position: relative;
-}
-
-.custom-checkbox input:checked + .checkmark::after {
-  content: "✓";
-  position: absolute;
-  color: white;
-  left: 3px;
-  top: -3px;
-}
 
 .habits-today-card {
   padding: 85px 100px;
@@ -191,10 +141,10 @@
 .tape-img {
   position: absolute;
   top: -18px;
-}
 
-.tape-img img{
-  width: 160px;
+  img{
+    width: 160px;
+  }
 }
 
 .flower-img{
@@ -202,28 +152,6 @@
   right: 107px;
   top: 52px;
   height: 104px;
-}
-
-.habit-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #e6dccd;
-  font-size: 20px;
-}
-
-.home-page {
-  display: grid;
-  grid-template-columns: 1fr 450px;
-  gap: 60px;
-  padding: 40px 60px;
-  min-height: 100%;
-}
-
-.habits-section {
-  display: flex;
-  justify-content: center;
 }
 
 .dashboard {
