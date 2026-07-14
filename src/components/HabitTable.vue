@@ -30,6 +30,8 @@
       )
   )
   const todayKey = formatDateKey(today)
+  const hoveredIndex = ref<number | null>(null)
+  const todayColIndex = computed(() => days.value.indexOf(todayKey))
   const dayGridStyle = computed(() => ({
     gridTemplateColumns: `repeat(${days.value.length}, 42px)`
   }))
@@ -216,8 +218,8 @@
   margin-top: 8px;
 }
 
-.habit-item:hover,
-.date-row:hover {
+.habit-item.row-hover,
+.date-row.row-hover {
   background: var(--habit-color-soft);
   box-shadow: 0 9px 18px rgba(113, 92, 67, 0.09);
 }
@@ -255,6 +257,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 20px;
 }
 
 .habit-dot {
@@ -307,6 +310,39 @@
   color: #9a8065;
   white-space: nowrap;
 }
+
+.delete-btn {
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #c4b5a0;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.habit-item:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background: #fce4ec;
+  color: #e53935;
+}
+
+.today-col {
+  position: relative;
+  background: rgba(128, 185, 24, 0.12);
+  box-shadow: 0 -9px 0 0 rgba(128, 185, 24, 0.12);
+}
+
 </style>
 
 <template>
@@ -336,11 +372,19 @@
             v-for="(habit, habitIndex) in habitsStore.habits"
             :key="habit.id"
             class="habit-cell habit-item"
+            :class="{ 'row-hover': hoveredIndex === habitIndex }"
             :style="rowStyle(habit, habitIndex)"
+            @mouseenter="hoveredIndex = habitIndex"
+            @mouseleave="hoveredIndex = null"
         >
           <span class="habit-dot" />
           <span class="habit-name">{{ habit.name }}</span>
           <span class="streak">🔥 {{ habit.completedDates.length }}</span>
+          <button
+              class="delete-btn"
+              title="Удалить привычку"
+              @click.stop="habitsStore.removeHabit(habit.id)"
+          >✕</button>
         </div>
       </div>
 
@@ -348,9 +392,10 @@
         <div class="dates-inner">
           <div class="dates-header header" :style="dayGridStyle">
             <div
-                v-for="day in days"
+                v-for="(day, dayIndex) in days"
                 :key="day"
                 class="cell day-col"
+                :class="{ 'today-col': dayIndex === todayColIndex }"
             >
               {{ new Date(day).getDate() }}
             </div>
@@ -360,13 +405,17 @@
               v-for="(habit, habitIndex) in habitsStore.habits"
               :key="habit.id"
               class="date-row"
+              :class="{ 'row-hover': hoveredIndex === habitIndex }"
               :style="rowStyle(habit, habitIndex)"
+              @mouseenter="hoveredIndex = habitIndex"
+              @mouseleave="hoveredIndex = null"
           >
             <div class="dates-header-row" :style="dayGridStyle">
               <div
-                  v-for="day in days"
+                  v-for="(day, dayIndex) in days"
                   :key="day"
                   class="cell day-col"
+                  :class="{ 'today-col': dayIndex === todayColIndex }"
               >
                 <button
                     class="circle-toggle"

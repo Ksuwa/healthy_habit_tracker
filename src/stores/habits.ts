@@ -31,6 +31,10 @@ export const useHabitsStore = defineStore('habits', () => {
         })
     }
 
+    const removeHabit = (id: string) => {
+        habits.value = habits.value.filter(h => h.id !== id)
+    }
+
     const toggleDay = (
         habitId: string,
         date: string
@@ -84,6 +88,7 @@ export const useHabitsStore = defineStore('habits', () => {
         habits,
         load,
         addHabit,
+        removeHabit,
         toggleDay
     }
 })

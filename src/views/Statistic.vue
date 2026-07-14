@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue'
 import { useHabitsStore } from '@/stores/habits'
 import type { Habit } from '@/types/habits'
+import StatCard from "@/components/StatCard.vue";
 
 const habitsStore = useHabitsStore()
 
@@ -117,46 +118,29 @@ const habitCompletions = computed(() => {
 <template>
   <div class="stat-page">
     <div class="stat-cards">
-      <div class="stat-card">
-        <h3 class="card-title">Мой прогресс</h3>
-        <div class="progress-ring">
-          <svg width="140" height="140" viewBox="0 0 140 140">
-            <circle
-              cx="70" cy="70" r="58"
-              fill="none"
-              stroke="#eadfce"
-              stroke-width="10"
-            />
-            <circle
-              cx="70" cy="70" r="58"
-              fill="none"
-              stroke="#80b918"
-              stroke-width="10"
-              stroke-linecap="round"
-              :stroke-dasharray="`${overallProgress * 3.644} 364.4`"
-              transform="rotate(-90 70 70)"
-              style="transition: stroke-dasharray 0.6s ease"
-            />
-          </svg>
-          <span class="progress-text">{{ overallProgress }}%</span>
-        </div>
-      </div>
+      <StatCard
+          title="Мой прогресс"
+          :value="overallProgress"
+          icon="🔥"
+          type="progress"
 
-      <div class="stat-card">
-        <h3 class="card-title">Рекорд</h3>
-        <p class="card-habit-name">{{ recordHabit?.name || '—' }}</p>
-        <p class="card-value">
-          <span class="value-num">{{ recordHabit?.completedDates.length || 0 }}</span> дней
-        </p>
-      </div>
+      />
 
-      <div class="stat-card">
-        <h3 class="card-title">Лучший стрик</h3>
-        <p class="card-habit-name">{{ bestStreakHabit?.habit?.name || '—' }}</p>
-        <p class="card-value">
-          <span class="value-num">{{ bestStreakHabit?.streak || 0 }}</span> дней подряд
-        </p>
-      </div>
+      <StatCard
+          title="Рекорд"
+          :value="recordHabit?.name || '—'"
+          icon="✅"
+          type="streak"
+          :description="`${recordHabit?.completedDates.length || 0} дней подряд`"
+      />
+
+      <StatCard
+          title="Лучший стрик"
+          :value="bestStreakHabit?.habit?.name || '—'"
+          icon="✅"
+          type="streak"
+          :description="`${bestStreakHabit?.streak || 0} дней подряд`"
+      />
     </div>
 
     <div class="stat-habits">
@@ -191,59 +175,6 @@ const habitCompletions = computed(() => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-}
-
-.stat-card {
-  background: #fffdf7;
-  border: 1px solid #eadfce;
-  border-radius: 18px;
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(113, 92, 67, 0.06);
-}
-
-.card-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #5a4a3a;
-  margin-bottom: 20px;
-}
-
-.progress-ring {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.progress-text {
-  position: absolute;
-  font-size: 28px;
-  font-weight: 700;
-  color: #5a4a3a;
-}
-
-.card-habit-name {
-  font-size: 24px;
-  font-weight: 600;
-  color: #3a2a1a;
-  margin-bottom: 8px;
-}
-
-.card-value {
-  font-size: 18px;
-  color: #8e7d6a;
-}
-
-.value-num {
-  font-size: 32px;
-  font-weight: 700;
-  color: #5a4a3a;
 }
 
 .stat-habits {
@@ -316,5 +247,14 @@ const habitCompletions = computed(() => {
   font-size: 18px;
   font-weight: 600;
   color: #5a4a3a;
+}
+
+@media (max-width: 640px) {
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+  .stat-page {
+    padding: 0;
+  }
 }
 </style>

@@ -82,7 +82,7 @@ defineProps<{
 }
 
 .custom-checkbox input:checked + .checkmark {
-  background: #67a95f;
+  background: #c1debd;
   border-color: #67a95f;
 }
 

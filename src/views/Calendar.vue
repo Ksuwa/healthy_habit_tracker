@@ -45,6 +45,7 @@ function habitsForDate(dateStr: string) {
 }
 
 function selectDate(date: string) {
+  if (date > todayKey.value) return
   selectedDate.value = selectedDate.value === date ? null : date
 }
 
@@ -86,7 +87,7 @@ function shiftMonth(step: number) {
           v-for="day in days"
           :key="day"
           class="day-cell"
-          :class="{ selected: day === selectedDate }"
+          :class="{ selected: day === selectedDate, disabled: day > todayKey }"
           @click="selectDate(day)"
         >
           <span class="day-number">{{ new Date(day).getDate() }}</span>
@@ -211,6 +212,12 @@ function shiftMonth(step: number) {
   cursor: default;
 }
 
+.day-cell.disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
 .day-number {
   font-size: 20px;
   font-weight: 600;
@@ -247,6 +254,15 @@ function shiftMonth(step: number) {
   color: #5a4a3a;
   margin-bottom: 20px;
   text-align: center;
+}
+@media (max-width: 1024px) {
+  .calendar-page {
+    flex-direction: column;
+  }
+
+  .day-details {
+    width: 100%;
+  }
 }
 
 </style>
