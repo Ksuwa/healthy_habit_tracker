@@ -15,7 +15,7 @@ defineProps<{
         :key="habit.id"
         class="check-row"
     >
-      <span class="dot" :style="{ background: habit.color }" />
+      <span class="habit-calendar__dot" :style="{ background: habit.color }" />
       <span class="check-name">{{ habit.name }}</span>
       <span class="custom-checkbox">
         <input

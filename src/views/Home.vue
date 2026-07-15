@@ -11,7 +11,7 @@
 
   const habitsStore = useHabitsStore()
 
-  // for GSAP-animation
+  //------ for GSAP-animation------
   const habitsCard = ref<HTMLElement | null>(null)
   const noteCard = ref<HTMLElement | null>(null)
   const statsGrid = ref<HTMLElement | null>(null)
@@ -32,6 +32,7 @@
     habitsStore.load()
     play()
   })
+  //----------------------------------
 
   const todayHabitsLength = computed(() => {
     let todayHabits = habitsStore.habits.filter( h => h.completedDates.includes(today) )
@@ -60,26 +61,26 @@
 </script>
 
 <template>
-  <div class="home-content">
-    <div class="home-left">
-      <img ref="plant" class="potted-plant-img" src="/src/assets/img/potted-plant.png" alt="plant">
-      <div ref="habitsCard" class="habits-today-card">
-       <img class="flower-img" src="/src/assets/img/flower.png" alt="flower">
-        <h2 class="title">Today's habits</h2>
+  <div class="habit-dashboard">
+    <div class="habit-dashboard__habits">
+      <img ref="plant" class="habit-dashboard__plant-decoration" src="/src/assets/img/potted-plant.png" alt="plant">
+      <div ref="habitsCard" class="habit-dashboard__habits-card">
+       <img class="habit-dashboard__flower-decoration" src="/src/assets/img/flower.png" alt="flower">
+        <h2>Today's habits</h2>
         <HabitsListByDate :date="today"></HabitsListByDate>
       </div>
     </div>
 
-    <aside class="home-right dashboard">
-      <div ref="noteCard" class="note-card">
-        <div class="note-text">
-          <span class="note-date">{{ date }}, {{week}}</span>
+    <aside class="habit-dashboard__overview">
+      <div ref="noteCard" class="habit-dashboard__welcome-card">
+        <div class="habit-dashboard__welcome-content">
+          <span class="habit-dashboard__date">{{ date }}, {{week}}</span>
           <h1> Доброе утро!</h1>
-          <p class="note-description"> Сегодня отличный день, чтобы продолжить серию!</p>
+          <p class="habit-dashboard__subtitle"> Сегодня отличный день, чтобы продолжить серию!</p>
         </div>
       </div>
 
-      <div ref="statsGrid" class="stats-grid">
+      <div ref="statsGrid" class="habit-dashboard__stats">
         <StatCard
             title="привычек выполнено сегодня"
             :value="`${todayHabitsLength}/${habitsStore.habits.length}`"
@@ -105,13 +106,13 @@
         </StatCard>
       </div>
 
-      <div class="bottom-row">
-        <div ref="motivationCard" class="motivation-card">
-          <img class="flower-left" src="/src/assets/img/yellow-flower.png" alt="" />
-          <img class="heart-bottom" src="/src/assets/img/heart.png" alt="" />
+      <div class="habit-dashboard__motivation">
+        <div ref="motivationCard" class="habit-dashboard__quote-card">
+          <img class="habit-dashboard__quote-flower" src="/src/assets/img/yellow-flower.png" alt="" />
+          <img class="habit-dashboard__quote-heart" src="/src/assets/img/heart.png" alt="" />
            Маленькие шаги каждый день приводят к большим результатам
         </div>
-        <img ref="cup" class="cup-img" src="/src/assets/img/cup.png" alt="cup" />
+        <img ref="cup" class="habit-dashboard__cup-decoration" src="/src/assets/img/cup.png" alt="cup" />
       </div>
     </aside>
   </div>
@@ -119,7 +120,7 @@
 
 <style scoped lang="scss">
 
-.motivation-card {
+.habit-dashboard__quote-card {
   position: relative;
   padding: 28px 31px 28px 60px;
   background:
@@ -182,7 +183,7 @@
   }
 }
 
-.flower-left {
+.habit-dashboard__quote-flower {
   position: absolute;
   left: 16px;
   top: 24px;
@@ -193,7 +194,7 @@
   opacity: 0.7;
 }
 
-.heart-bottom {
+.habit-dashboard__quote-heart {
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -202,7 +203,7 @@
   z-index: 0;
 }
 
-.home-content {
+.habit-dashboard {
     flex: 1;
     display: flex;
     padding-top: 40px;
@@ -210,18 +211,18 @@
     background: #f5f0e4;
 }
 
-.home-left,
-.home-right {
+.habit-dashboard__habits,
+.habit-dashboard__overview {
   flex: 1;
   min-width: 0;
   position: relative;
 }
 
-.home-left h2 {
+.habit-dashboard__habits h2 {
   text-align: center;
 }
 
-.potted-plant-img {
+.habit-dashboard__plant-decoration {
   position: absolute;
   left: -29px;
   bottom: 0;
@@ -230,8 +231,8 @@
   pointer-events: none;
 }
 
-.note-card {
-  transform-origin: top center; //new
+.habit-dashboard__welcome-card {
+  transform-origin: top center;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -285,19 +286,14 @@
   }
 }
 
-.note-text {
+.habit-dashboard__welcome-content {
     display: flex;
     flex-direction: column;
     gap: 4px;
     align-items: center;
 }
 
-.note-label {
-    font-size: 29px;
-    color: #5a4a3a;
-}
-
-.note-date {
+.habit-dashboard__date {
     font-size: 18px;
     color: #807e7c;
     font-weight: 600;
@@ -305,11 +301,11 @@
     padding-bottom: 20px;
 }
 
-.note-description {
+.habit-dashboard__subtitle {
   font-size: 25px;
 }
 
-.habits-today-card {
+.habit-dashboard__habits-card {
   padding: 60px 79px;
   position: relative;
   z-index: 1;
@@ -319,8 +315,12 @@
   margin-left: auto;
   background: url('/src/assets/img/note-today.png') center / contain no-repeat;
   box-sizing: border-box;
+  transform-origin: top center;
 
-  transform-origin: top center; //new
+  h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
 
   &::after{
     content:"";
@@ -335,25 +335,15 @@
   }
 }
 
-.tape-img {
-  position: absolute;
-  top: -18px;
-
-  img{
-    width: 160px;
-  }
-}
-
-.flower-img{
+.habit-dashboard__flower-decoration{
   position: absolute;
   right: 107px;
   top: 14px;
   height: 104px;
 }
 
-.stats-grid {
+.habit-dashboard__stats {
   display: flex;
-  //grid-template-columns: repeat(3, 1fr);
   gap: 37px;
   align-items:flex-start;
 
@@ -371,66 +361,66 @@
   }
 }
 
-.dashboard {
+.habit-dashboard__overview {
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: space-between;
 }
 
-.bottom-row {
+.habit-dashboard__motivation {
   display: flex;
   align-items: center;
   gap: 16px;
   justify-content: space-between;
 }
 
-.cup-img {
+.habit-dashboard__cup-decoration {
   width: 130px;
   flex-shrink: 0;
 }
 
 @media (max-width: 1024px) {
-  .home-content {
+  .habit-dashboard {
     flex-direction: column;
     padding: 0 20px;
     align-items: center;
   }
 
-  .home-left,
-  .home-right {
+  .habit-dashboard__habits,
+  .habit-dashboard__overview {
     max-width: 100%;
     width: 100%;
   }
 
-  .habits-today-card {
+  .habit-dashboard__habits-card {
     margin-right: auto;
   }
 }
 
 @media (min-width: 641px) and (max-width: 1024px) {
-  .stats-grid .stat-card {
+  .habit-dashboard__stats .stat-card {
     flex: 1;
   }
 }
 
 @media (max-width: 640px) {
-  .stats-grid {
+  .habit-dashboard__stats {
     flex-direction: column;
   }
 
-  .habits-today-card {
+  .habit-dashboard__habits-card {
     padding: 50px 105px;
     height: auto;
   }
 
-  .note-card {
+  .habit-dashboard__welcome-card {
     height: 100%;
     min-height: 257px;
     padding: 70px 0 0;
   }
 
-  .flower-img {
+  .habit-dashboard__flower-decoration {
     display: none;
   }
 }

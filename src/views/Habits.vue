@@ -4,6 +4,7 @@ import { useHabitsStore } from '@/stores/habits'
 import HabitTable from '@/components/HabitTable.vue'
 
 const habitsStore = useHabitsStore()
+
 const showModal = ref(false)
 const newName = ref('')
 
@@ -24,26 +25,27 @@ function cancel() {
 </script>
 
 <template>
-    <div class="habits-container">
-        <div class="habits-header">
-            <h2>мои привычки</h2>
-            <button @click="openModal">+ Добавить</button>
+    <div class="habits-page">
+        <div class="habits-page__header">
+            <h1>мои привычки</h1>
+            <button class="habits-page__add-btn" @click="openModal">+ Добавить</button>
         </div>
         <HabitTable />
 
         <Teleport to="body">
-            <div v-if="showModal" class="modal-overlay" @click.self="cancel">
-                <div class="modal-card">
+            <div v-if="showModal" class="habits-page__modal-overlay" @click.self="cancel">
+                <div class="habits-page__modal">
                     <h3>Новая привычка</h3>
                     <input
+                        class="habits-page__modal-input"
                         v-model="newName"
                         placeholder="Название привычки"
                         @keyup.enter="add"
                         autofocus
                     />
-                    <div class="modal-actions">
-                        <button class="btn-cancel" @click="cancel">Отмена</button>
-                        <button class="btn-add" @click="add">Добавить</button>
+                    <div class="habits-page__modal-actions">
+                        <button class="habits-page__modal-btn--secondary" @click="cancel">Отмена</button>
+                        <button class="habits-page__modal-btn--primary" @click="add">Добавить</button>
                     </div>
                 </div>
             </div>
@@ -52,23 +54,23 @@ function cancel() {
 </template>
 
 <style scoped lang="scss">
-.habits-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: #f5f0e4;
-}
+.habits-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f5f0e4;
 
-.habits-header {
+  &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-  h2 {
-    font-size: 28px;
+    h1 {
+      font-size: 28px;
+    }
   }
 
-  button {
+  &__add-btn {
     background: transparent;
     border: 2px dashed #e6dccd;
     border-radius: 12px;
@@ -78,79 +80,82 @@ function cancel() {
     cursor: pointer;
     color: #5a4a3a;
     transition: 0.2s;
+
+    &:hover {
+      background: #e6dccd;
+    }
   }
 
-  button:hover {
-    background: #e6dccd;
-  }
-}
-
-.modal-overlay {
+  &__modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
-}
+  }
 
-.modal-card {
+  &__modal {
     background: #fffdf7;
     border-radius: 20px;
     padding: 32px;
     width: 360px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     font-family: 'Caveat', cursive;
 
     h3 {
       font-size: 28px;
       margin-bottom: 16px;
     }
+  }
 
-    input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e6dccd;
-      border-radius: 12px;
-      font-size: 22px;
-      font-family: 'Caveat', cursive;
-      background: transparent;
-      outline: none;
-    }
+  &__modal-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e6dccd;
+    border-radius: 12px;
+    font-size: 22px;
+    font-family: 'Caveat', cursive;
+    background: transparent;
+    outline: none;
 
-    input:focus {
+    &:focus {
       border-color: #c4b5a0;
     }
-}
+  }
 
-.modal-actions {
+  &__modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
     margin-top: 20px;
+  }
 
-  button {
+  &__modal-btn--secondary {
     padding: 8px 24px;
     border-radius: 12px;
     font-family: 'Caveat', cursive;
     font-size: 22px;
     cursor: pointer;
     border: none;
-  }
-}
-
-.btn-cancel {
     background: transparent;
     color: #999;
-}
+  }
 
-.btn-add {
+  &__modal-btn--primary {
+    padding: 8px 24px;
+    border-radius: 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    cursor: pointer;
+    border: none;
     background: #e6dccd;
     color: #3a2a1a;
-}
 
-.btn-add:hover {
-    background: #d4c9b5;
+    &:hover {
+      background: #d4c9b5;
+    }
+  }
 }
 </style>
