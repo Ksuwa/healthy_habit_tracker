@@ -58,16 +58,32 @@ defineProps<{
   width: 22px;
   height: 22px;
   flex-shrink: 0;
-}
 
-.custom-checkbox input {
-  position: absolute;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  z-index: 1;
-  margin: 0;
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+    margin: 0;
+
+    &:checked + .checkmark {
+      background: #c1debd;
+      border-color: #67a95f;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        color: white;
+        font-size: 16px;
+        line-height: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }
 
 .checkmark {
@@ -79,22 +95,6 @@ defineProps<{
   background: white;
   position: relative;
   box-sizing: border-box;
-}
-
-.custom-checkbox input:checked + .checkmark {
-  background: #c1debd;
-  border-color: #67a95f;
-}
-
-.custom-checkbox input:checked + .checkmark::after {
-  content: "✓";
-  position: absolute;
-  color: white;
-  font-size: 16px;
-  line-height: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .dot {

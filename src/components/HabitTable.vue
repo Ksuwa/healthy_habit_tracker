@@ -1,4 +1,3 @@
-<!-- components/HabitTable.vue -->
 <script setup lang="ts">
   import { onMounted, computed, ref } from 'vue'
   import { useHabitsStore } from '@/stores/habits'
@@ -102,6 +101,96 @@
   }
 </script>
 
+<template>
+  <div class="table-wrapper">
+    <div class="month-switcher" aria-label="Переключение месяца">
+      <button
+          type="button"
+          aria-label="Предыдущий месяц"
+          @click="shiftMonth(-1)"
+      >
+        ‹
+      </button>
+      <div class="month-label">{{ monthLabel }}</div>
+      <button
+          type="button"
+          aria-label="Следующий месяц"
+          @click="shiftMonth(1)"
+      >
+        ›
+      </button>
+    </div>
+
+    <div class="table">
+      <div class="habit-list">
+        <div class="habit-cell header">Привычка</div>
+        <div
+            v-for="(habit, habitIndex) in habitsStore.habits"
+            :key="habit.id"
+            class="habit-cell habit-item"
+            :class="{ 'row-hover': hoveredIndex === habitIndex }"
+            :style="rowStyle(habit, habitIndex)"
+            @mouseenter="hoveredIndex = habitIndex"
+            @mouseleave="hoveredIndex = null"
+        >
+          <span class="habit-dot" />
+          <span class="habit-name">{{ habit.name }}</span>
+          <span class="streak">🔥 {{ habit.completedDates.length }}</span>
+          <button
+              class="delete-btn"
+              title="Удалить привычку"
+              @click.stop="habitsStore.removeHabit(habit.id)"
+          >✕</button>
+        </div>
+      </div>
+
+      <div class="dates-scroll">
+        <div class="dates-inner">
+          <div class="dates-header header" :style="dayGridStyle">
+            <div
+                v-for="(day, dayIndex) in days"
+                :key="day"
+                class="cell day-col"
+                :class="{ 'today-col': dayIndex === todayColIndex }"
+            >
+              {{ new Date(day).getDate() }}
+            </div>
+          </div>
+
+          <div
+              v-for="(habit, habitIndex) in habitsStore.habits"
+              :key="habit.id"
+              class="date-row"
+              :class="{ 'row-hover': hoveredIndex === habitIndex }"
+              :style="rowStyle(habit, habitIndex)"
+              @mouseenter="hoveredIndex = habitIndex"
+              @mouseleave="hoveredIndex = null"
+          >
+            <div class="dates-header-row" :style="dayGridStyle">
+              <div
+                  v-for="(day, dayIndex) in days"
+                  :key="day"
+                  class="cell day-col"
+                  :class="{ 'today-col': dayIndex === todayColIndex }"
+              >
+                <button
+                    class="circle-toggle"
+                    :class="{ active: habit.completedDates.includes(day) }"
+                    :disabled="isFutureDate(day)"
+                    :aria-label="`${habit.name}: ${new Date(day).getDate()}`"
+                    @click="toggle(habit.id, day)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+
 <style scoped lang="scss">
 .table-wrapper {
   padding: 20px 40px 0;
@@ -116,26 +205,26 @@
   gap: 18px;
   margin-bottom: 16px;
   color: #5a4a3a;
-}
 
-.month-switcher button {
-  width: 34px;
-  height: 34px;
-  border: 1px solid #e3d6c4;
-  border-radius: 50%;
-  background: #fffdf7;
-  color: #6c5a46;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 28px;
-  line-height: 1;
-  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
-}
+  button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #e3d6c4;
+    border-radius: 50%;
+    background: #fffdf7;
+    color: #6c5a46;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 28px;
+    line-height: 1;
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 
-.month-switcher button:hover {
-  background: #f3eadb;
-  box-shadow: 0 6px 14px rgba(113, 92, 67, 0.12);
-  transform: translateY(-1px);
+    &:hover {
+      background: #f3eadb;
+      box-shadow: 0 6px 14px rgba(113, 92, 67, 0.12);
+      transform: translateY(-1px);
+    }
+  }
 }
 
 .month-label {
@@ -344,92 +433,3 @@
 }
 
 </style>
-
-<template>
-  <div class="table-wrapper">
-    <div class="month-switcher" aria-label="Переключение месяца">
-      <button
-          type="button"
-          aria-label="Предыдущий месяц"
-          @click="shiftMonth(-1)"
-      >
-        ‹
-      </button>
-      <div class="month-label">{{ monthLabel }}</div>
-      <button
-          type="button"
-          aria-label="Следующий месяц"
-          @click="shiftMonth(1)"
-      >
-        ›
-      </button>
-    </div>
-
-    <div class="table">
-      <div class="habit-list">
-        <div class="habit-cell header">Привычка</div>
-        <div
-            v-for="(habit, habitIndex) in habitsStore.habits"
-            :key="habit.id"
-            class="habit-cell habit-item"
-            :class="{ 'row-hover': hoveredIndex === habitIndex }"
-            :style="rowStyle(habit, habitIndex)"
-            @mouseenter="hoveredIndex = habitIndex"
-            @mouseleave="hoveredIndex = null"
-        >
-          <span class="habit-dot" />
-          <span class="habit-name">{{ habit.name }}</span>
-          <span class="streak">🔥 {{ habit.completedDates.length }}</span>
-          <button
-              class="delete-btn"
-              title="Удалить привычку"
-              @click.stop="habitsStore.removeHabit(habit.id)"
-          >✕</button>
-        </div>
-      </div>
-
-      <div class="dates-scroll">
-        <div class="dates-inner">
-          <div class="dates-header header" :style="dayGridStyle">
-            <div
-                v-for="(day, dayIndex) in days"
-                :key="day"
-                class="cell day-col"
-                :class="{ 'today-col': dayIndex === todayColIndex }"
-            >
-              {{ new Date(day).getDate() }}
-            </div>
-          </div>
-
-          <div
-              v-for="(habit, habitIndex) in habitsStore.habits"
-              :key="habit.id"
-              class="date-row"
-              :class="{ 'row-hover': hoveredIndex === habitIndex }"
-              :style="rowStyle(habit, habitIndex)"
-              @mouseenter="hoveredIndex = habitIndex"
-              @mouseleave="hoveredIndex = null"
-          >
-            <div class="dates-header-row" :style="dayGridStyle">
-              <div
-                  v-for="(day, dayIndex) in days"
-                  :key="day"
-                  class="cell day-col"
-                  :class="{ 'today-col': dayIndex === todayColIndex }"
-              >
-                <button
-                    class="circle-toggle"
-                    :class="{ active: habit.completedDates.includes(day) }"
-                    :disabled="isFutureDate(day)"
-                    :aria-label="`${habit.name}: ${new Date(day).getDate()}`"
-                    @click="toggle(habit.id, day)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</template>
