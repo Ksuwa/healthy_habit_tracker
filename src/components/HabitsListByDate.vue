@@ -44,7 +44,7 @@ defineProps<{
   justify-content: space-between;
   gap: 10px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 24px;
   color: #5a4a3a;
   border-bottom: 1px solid #e6dccd;
 }

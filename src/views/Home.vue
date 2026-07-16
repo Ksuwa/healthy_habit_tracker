@@ -65,8 +65,7 @@
     <div class="habit-dashboard__habits">
       <img ref="plant" class="habit-dashboard__plant-decoration" src="/src/assets/img/potted-plant.png" alt="plant">
       <div ref="habitsCard" class="habit-dashboard__habits-card">
-       <img class="habit-dashboard__flower-decoration" src="/src/assets/img/flower.png" alt="flower">
-        <h2>Today's habits</h2>
+        <h1>Привычки сегодня</h1>
         <HabitsListByDate :date="today"></HabitsListByDate>
       </div>
     </div>
@@ -75,7 +74,7 @@
       <div ref="noteCard" class="habit-dashboard__welcome-card">
         <div class="habit-dashboard__welcome-content">
           <span class="habit-dashboard__date">{{ formattedDate }}, {{ formattedWeekday }}</span>
-          <h1> Доброе утро!</h1>
+          <h2> Доброе утро!</h2>
           <p class="habit-dashboard__subtitle"> Сегодня отличный день, чтобы продолжить серию!</p>
         </div>
       </div>
@@ -183,32 +182,36 @@
   }
 }
 
-.habit-dashboard__quote-flower {
-  position: absolute;
-  left: 16px;
-  top: 24px;
-  height: 62%;
-  width: auto;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.7;
-}
-
-.habit-dashboard__quote-heart {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  width: 28px;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .habit-dashboard {
     flex: 1;
     display: flex;
     padding-top: 40px;
     gap: 30px;
     background: #f5f0e4;
+
+    &__quote-flower {
+      position: absolute;
+      left: 16px;
+      top: 24px;
+      height: 62%;
+      width: auto;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.7;
+    }
+
+    &__quote-heart {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &__habits h2 {
+      text-align: center;
+    }
 }
 
 .habit-dashboard__habits,
@@ -218,9 +221,7 @@
   position: relative;
 }
 
-.habit-dashboard__habits h2 {
-  text-align: center;
-}
+
 
 .habit-dashboard__plant-decoration {
   position: absolute;
@@ -306,7 +307,7 @@
 }
 
 .habit-dashboard__habits-card {
-  padding: 60px 79px;
+  padding: 72px 79px;
   position: relative;
   z-index: 1;
   height: 673px;
@@ -317,9 +318,19 @@
   box-sizing: border-box;
   transform-origin: top center;
 
-  h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
+  h1 {
+    margin-bottom: 40px;
+
+    &:after {
+      content:"";
+      position:absolute;
+      top:40px;
+      right: 28px;
+      transform:translateX(-50%) rotate(-7deg);
+      width:55px;
+      height:90px;
+      background:url("/src/assets/img/flower.png") center/contain no-repeat;
+    }
   }
 
   &::after{
@@ -337,8 +348,8 @@
 
 .habit-dashboard__flower-decoration{
   position: absolute;
-  right: 107px;
-  top: 14px;
+  right: 148px;
+  top: 25px;
   height: 104px;
 }
 

@@ -68,45 +68,48 @@ function shiftMonth(step: number) {
 </script>
 
 <template>
-  <div class="habit-calendar">
-    <section class="habit-calendar__panel">
-      <header class="habit-calendar__header">
-        <button class="habit-calendar__nav-btn" @click="shiftMonth(-1)">‹</button>
-        <h2 class="habit-calendar__month-title">{{ monthLabel }}</h2>
-        <button class="habit-calendar__nav-btn" @click="shiftMonth(1)">›</button>
-      </header>
+  <div class="habbit-page">
+    <h1>Календарь моих привычек</h1>
+    <div class="habit-calendar">
+      <section class="habit-calendar__panel">
+        <header class="habit-calendar__header">
+          <button class="habit-calendar__nav-btn" @click="shiftMonth(-1)">‹</button>
+          <h2 class="habit-calendar__month-title">{{ monthLabel }}</h2>
+          <button class="habit-calendar__nav-btn" @click="shiftMonth(1)">›</button>
+        </header>
 
-      <div class="habit-calendar__week-row">
-        <div v-for="d in weekdays" :key="d" class="habit-calendar__weekday">{{ d }}</div>
-      </div>
+        <div class="habit-calendar__week-row">
+          <div v-for="d in weekdays" :key="d" class="habit-calendar__weekday">{{ d }}</div>
+        </div>
 
-      <div class="habit-calendar__grid">
-        <div v-for="n in startPadding" :key="'p' + n" class="habit-calendar__day empty" />
+        <div class="habit-calendar__grid">
+          <div v-for="n in startPadding" :key="'p' + n" class="habit-calendar__day empty" />
 
-        <div
-          v-for="day in days"
-          :key="day"
-          class="habit-calendar__day"
-          :class="{ 'habit-calendar__day--selected': day === selectedDate, 'habit-calendar__day--disabled': day > todayKey }"
-          @click="selectDate(day)"
-        >
-          <span class="habit-calendar__date">{{ new Date(day).getDate() }}</span>
-          <div class="habit-calendar__indicators">
-            <span
-              v-for="habit in habitsForDate(day)"
-              :key="habit.id"
-              class="habit-calendar__dot"
-              :style="{ background: habit.color }"
-            />
+          <div
+            v-for="day in days"
+            :key="day"
+            class="habit-calendar__day"
+            :class="{ 'habit-calendar__day--selected': day === selectedDate, 'habit-calendar__day--disabled': day > todayKey }"
+            @click="selectDate(day)"
+          >
+            <span class="habit-calendar__date">{{ new Date(day).getDate() }}</span>
+            <div class="habit-calendar__indicators">
+              <span
+                v-for="habit in habitsForDate(day)"
+                :key="habit.id"
+                class="habit-calendar__dot"
+                :style="{ background: habit.color }"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <aside v-if="selectedDate" class="habit-calendar__sidebar">
-      <h3 class="habit-calendar__sidebar-title">{{ formatDateRu(selectedDate) }}</h3>
-      <HabitsListByDate :date="selectedDate"></HabitsListByDate>
-    </aside>
+      <aside v-if="selectedDate" class="habit-calendar__sidebar">
+        <h3 class="habit-calendar__sidebar-title">{{ formatDateRu(selectedDate) }}</h3>
+        <HabitsListByDate :date="selectedDate"></HabitsListByDate>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -118,6 +121,10 @@ function shiftMonth(step: number) {
   padding: 40px;
   background: #f5f0e4;
   min-width: 0;
+
+  h1 {
+    margin-bottom: 40px ;
+  }
 
   &__panel {
     flex: 1;

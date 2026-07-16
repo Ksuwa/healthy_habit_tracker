@@ -193,7 +193,7 @@
 
 <style scoped lang="scss">
 .table-wrapper {
-  padding: 20px 40px 0;
+  padding: 40px 0 0;
   overflow-x: hidden;
   min-width: 0;
 }

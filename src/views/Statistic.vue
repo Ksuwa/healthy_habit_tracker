@@ -117,6 +117,7 @@ const habitCompletions = computed(() => {
 
 <template>
   <div class="statistic-page">
+    <h1>Моя статистика</h1>
     <div class="statistic-page__cards">
       <StatCard
           title="Мой прогресс"
@@ -169,6 +170,10 @@ const habitCompletions = computed(() => {
   background: #f5f0e4;
   min-width: 0;
   overflow-y: auto;
+
+  h1 {
+    margin: 0 0 17px;
+  }
 
   &__cards {
     display: grid;

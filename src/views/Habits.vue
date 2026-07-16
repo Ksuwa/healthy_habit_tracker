@@ -27,7 +27,7 @@ function cancel() {
 <template>
     <div class="habits-page">
         <div class="habits-page__header">
-            <h1>мои привычки</h1>
+            <h1>Мои привычки</h1>
             <button class="habits-page__add-btn" @click="openModal">+ Добавить</button>
         </div>
         <HabitTable />
@@ -64,10 +64,7 @@ function cancel() {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    h1 {
-      font-size: 28px;
-    }
+    margin-top: 10px;
   }
 
   &__add-btn {
