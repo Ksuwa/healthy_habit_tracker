@@ -5,8 +5,8 @@
   import { useHabitsStore } from '@/stores/habits'
   import { useHomeAnimation } from '@/composables/useHomeAnimation'
 
-  const date = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long'})
-  const week = new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
+  const formattedDate = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long'})
+  const formattedWeekday = new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
   const today = new Date().toISOString().slice(0, 10)
 
   const habitsStore = useHabitsStore()
@@ -34,26 +34,26 @@
   })
   //----------------------------------
 
-  const todayHabitsLength = computed(() => {
+  const todayCompletedHabits = computed(() => {
     let todayHabits = habitsStore.habits.filter( h => h.completedDates.includes(today) )
     return todayHabits.length
   })
 
   const todayProgress = computed(() => {
     if (habitsStore.habits.length === 0) return 0
-    return Math.round(todayHabitsLength.value / habitsStore.habits.length * 100)
+    return Math.round(todayCompletedHabits.value / habitsStore.habits.length * 100)
   })
 
   const currentStreak = computed(() => {
     let streak = 0
-    const date = new Date()
+    const formattedDate = new Date()
 
     while (true) {
-      const key = date.toISOString().slice(0, 10)
+      const key = formattedDate.toISOString().slice(0, 10)
       const hasCompletion = habitsStore.habits.some(h => h.completedDates.includes(key))
       if (!hasCompletion) break
       streak++
-      date.setDate(date.getDate() - 1)
+      formattedDate.setDate(formattedDate.getDate() - 1)
     }
 
     return streak
@@ -74,7 +74,7 @@
     <aside class="habit-dashboard__overview">
       <div ref="noteCard" class="habit-dashboard__welcome-card">
         <div class="habit-dashboard__welcome-content">
-          <span class="habit-dashboard__date">{{ date }}, {{week}}</span>
+          <span class="habit-dashboard__date">{{ formattedDate }}, {{ formattedWeekday }}</span>
           <h1> Доброе утро!</h1>
           <p class="habit-dashboard__subtitle"> Сегодня отличный день, чтобы продолжить серию!</p>
         </div>
@@ -83,7 +83,7 @@
       <div ref="statsGrid" class="habit-dashboard__stats">
         <StatCard
             title="привычек выполнено сегодня"
-            :value="`${todayHabitsLength}/${habitsStore.habits.length}`"
+            :value="`${todayCompletedHabits}/${habitsStore.habits.length}`"
             type="completed">
           <template #icon>
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#80b918" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"></path></svg>

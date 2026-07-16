@@ -116,8 +116,8 @@ const habitCompletions = computed(() => {
 </script>
 
 <template>
-  <div class="stat-page">
-    <div class="stat-cards">
+  <div class="statistic-page">
+    <div class="statistic-page__cards">
       <StatCard
           title="Мой прогресс"
           :value="overallProgress"
@@ -129,38 +129,38 @@ const habitCompletions = computed(() => {
       <StatCard
           title="Рекорд"
           :value="recordHabit?.name || '—'"
-          icon="✅"
-          type="streak"
+          type="stat-card"
           :description="`${recordHabit?.completedDates.length || 0} дней подряд`"
       />
 
       <StatCard
           title="Лучший стрик"
           :value="bestStreakHabit?.habit?.name || '—'"
-          icon="✅"
           type="streak"
           :description="`${bestStreakHabit?.streak || 0} дней подряд`"
       />
     </div>
 
-    <div class="stat-habits">
-      <div class="habits-list-title">Завершение привычек</div>
+    <div class="statistic-page__list">
+      <div class="statistic-page__list-title">Завершение привычек</div>
 
-      <div v-for="(item, index) in habitCompletions" :key="item.id" class="habit-stat-row">
-        <span class="stat-index">{{ index + 1 }}</span>
-        <span class="stat-dot" :style="{ background: item.color }" />
-        <span class="stat-name">{{ item.name }}</span>
-        <div class="stat-bar-track">
-          <div class="stat-bar-fill" :style="{ width: item.percentage + '%', background: item.color }"/>
+      <div v-for="(item, index) in habitCompletions" :key="item.id" class="habit-stat
+
+">
+        <span class="habit-stat__index">{{ index + 1 }}</span>
+        <span class="habit-stat__dot" :style="{ background: item.color }" />
+        <span class="habit-stat__name">{{ item.name }}</span>
+        <div class="habit-stat__progress">
+          <div class="habit-stat__progress-bar" :style="{ width: item.percentage + '%', background: item.color }"/>
         </div>
-        <span class="stat-pct">{{ item.percentage }}%</span>
+        <span class="habit-stat__percentage">{{ item.percentage }}%</span>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.stat-page {
+.statistic-page {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -169,92 +169,94 @@ const habitCompletions = computed(() => {
   background: #f5f0e4;
   min-width: 0;
   overflow-y: auto;
+
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  &__list {
+    background: #fffdf7;
+    border: 1px solid #eadfce;
+    border-radius: 18px;
+    padding: 28px 32px;
+    box-shadow: 0 6px 18px rgba(113, 92, 67, 0.06);
+
+    &-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #5a4a3a;
+      margin-bottom: 20px;
+    }
+  }
 }
 
-.stat-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.stat-habits {
-  background: #fffdf7;
-  border: 1px solid #eadfce;
-  border-radius: 18px;
-  padding: 28px 32px;
-  box-shadow: 0 6px 18px rgba(113, 92, 67, 0.06);
-}
-
-.habits-list-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #5a4a3a;
-  margin-bottom: 20px;
-}
-
-.habit-stat-row {
+.habit-stat {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid #f0e8da;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__index {
+    width: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #8e7d6a;
+    text-align: right;
+  }
+
+  &__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    width: 140px;
+    font-size: 20px;
+    color: #5a4a3a;
+    flex-shrink: 0;
+  }
+  &__progress {
+    flex: 1;
+    height: 14px;
+    background: #f0e8da;
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 0;
+
+    &-bar {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.6s ease;
+    }
+  }
+
+  &__percentage {
+    width: 48px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: 600;
+    color: #5a4a3a;
+  }
 }
 
-.habit-stat-row:last-child {
-  border-bottom: none;
-}
-
-.stat-index {
-  width: 24px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #8e7d6a;
-  text-align: right;
-}
-
-.stat-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.stat-name {
-  width: 140px;
-  font-size: 20px;
-  color: #5a4a3a;
-  flex-shrink: 0;
-}
-
-.stat-bar-track {
-  flex: 1;
-  height: 14px;
-  background: #f0e8da;
-  border-radius: 10px;
-  overflow: hidden;
-  min-width: 0;
-}
-
-.stat-bar-fill {
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.6s ease;
-}
-
-.stat-pct {
-  width: 48px;
-  text-align: right;
-  font-size: 18px;
-  font-weight: 600;
-  color: #5a4a3a;
-}
 
 @media (max-width: 640px) {
-  .stat-cards {
-    grid-template-columns: 1fr;
-  }
-  .stat-page {
+
+  .statistic-page {
     padding: 0;
+
+    &__cards {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>
