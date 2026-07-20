@@ -7,7 +7,7 @@ The application allows users to create habits, track daily completion, monitor p
 
 🔗 Live Demo: https://ksuwa.github.io/healthy_habit_tracker/
 
-![Habit Tracker Preview](./screenshots/preview.png)
+![Habit Tracker Preview](./screenshots/preview.webp)
 
 ---
 
