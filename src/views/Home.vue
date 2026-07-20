@@ -111,7 +111,7 @@
           <img class="habit-dashboard__quote-heart" src="/src/assets/img/heart.png" alt="" />
            Маленькие шаги каждый день приводят к большим результатам
         </div>
-        <img ref="cup" class="habit-dashboard__cup-decoration" src="/src/assets/img/cup.png" alt="cup" />
+        <img ref="cup" class="habit-dashboard__cup-decoration" src="/src/assets/img/cup.webp" alt="cup" />
       </div>
     </aside>
   </div>
@@ -314,7 +314,7 @@
   max-width: 492px;
   width: 100%;
   margin-left: auto;
-  background: url('/src/assets/img/note-today.png') center / contain no-repeat;
+  background: url('/src/assets/img/note-today.webp') center / contain no-repeat;
   box-sizing: border-box;
   transform-origin: top center;
 

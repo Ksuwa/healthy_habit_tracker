@@ -15,31 +15,33 @@ const menuOpen = ref(false)
   <div class="app">
     <div class="notebook">
       <header class="notebook-header">
-        <button
-            class="burger"
-            :class="{ open: menuOpen }"
-            @click="menuOpen = !menuOpen"
-            aria-label="Меню"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <RouterLink to="/">
-          <img src="/src/assets/img/logo.png" alt="logo" class="logo" />
-        </RouterLink>
-        <nav :class="{ open: menuOpen }">
-          <RouterLink
-              v-for="route in routes"
-              :key="route.path"
-              :to="route.path"
-              :data-icon="route.icon"
-              @click="menuOpen = false"
+        <div class="notebook-header__inner">
+          <button
+              class="burger"
+              :class="{ open: menuOpen }"
+              @click="menuOpen = !menuOpen"
+              aria-label="Меню"
           >
-            {{ route.name }}
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <RouterLink to="/">
+            <img src="/src/assets/img/logo.png" alt="logo" class="logo" />
           </RouterLink>
-        </nav>
-        <div v-if="menuOpen" class="menu-backdrop" @click="menuOpen = false" />
+          <nav :class="{ open: menuOpen }">
+            <RouterLink
+                v-for="route in routes"
+                :key="route.path"
+                :to="route.path"
+                :data-icon="route.icon"
+                @click="menuOpen = false"
+            >
+              {{ route.name }}
+            </RouterLink>
+          </nav>
+          <div v-if="menuOpen" class="menu-backdrop" @click="menuOpen = false" />
+        </div>
       </header>
       <main class="content">
         <router-view />

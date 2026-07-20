@@ -34,7 +34,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-height: 330px;
+  max-height: 400px;
   overflow-y: auto;
 }
 
