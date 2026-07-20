@@ -33,7 +33,7 @@ export const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/healthy_habit_tracker/'),
     routes,
 })
 
