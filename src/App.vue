@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import {useHabitsStore} from './stores/habits'
 import { routes } from '@/router'
+import AddHabitModal from '@/components/AddHabitModal.vue'
 
 const habitsStore = useHabitsStore()
 onMounted(() => {
@@ -47,6 +48,7 @@ const menuOpen = ref(false)
         <router-view />
       </main>
     </div>
+    <AddHabitModal />
   </div>
 </template>
 

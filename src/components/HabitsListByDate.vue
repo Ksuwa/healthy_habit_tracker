@@ -3,13 +3,15 @@ import { useHabitsStore } from '@/stores/habits'
 
 const habitsStore = useHabitsStore()
 defineProps<{
-  date: string
+  date: string,
+  title?: string
 }>()
 
 </script>
 
 <template>
   <div class="check-list">
+    <h1 v-if="title">{{ title }}</h1>
     <label
         v-for="habit in habitsStore.habits"
         :key="habit.id"

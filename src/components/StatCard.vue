@@ -32,7 +32,7 @@
       </svg>
       <span class="progress-text">{{ value }}%</span>
     </div>
-    <h3 class="card-title">{{ title }}</h3>
+    <div class="card-title">{{ title }}</div>
   </div>
 
   <div v-else class="stat-card" :class="`stat-card--${type}`">
@@ -53,17 +53,6 @@
 </template>
 
 <style lang="scss" scoped>
-.stat-card--completed {
-  background: #FCECEF;
-}
-
-.stat-card--progress {
-  background: #F2ECFC;
-}
-
-.stat-card--streak {
-  background: #e7f2f8;
-}
 .stat-card {
   display: flex;
   position: relative;
@@ -79,6 +68,7 @@
   text-align: center;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
+  color: #5a4a3a;
 
   &:hover {
     transform: translateY(-6px);
@@ -100,8 +90,6 @@
 
   &__description {
     font-size: 32px;
-    font-weight: 700;
-    color: #5a4a3a;
   }
 }
 
@@ -110,21 +98,16 @@
 }
 
 .stat-card__value {
-  font-size: 50px;
+  font-size: 38px;
   font-weight: 700;
-  margin-bottom: 8px;
 }
 
 .stat-card__title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #5a4a3a;
+  font-size: 18px;
   margin-bottom: 20px;
 }
 .card-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #5a4a3a;
+  font-size: 19px;
   margin-bottom: 20px;
 }
 
@@ -141,7 +124,6 @@
   position: absolute;
   font-size: 38px;
   font-weight: 700;
-  color: #5a4a3a;
 }
 
 </style>

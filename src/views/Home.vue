@@ -4,6 +4,7 @@
   import { onMounted, computed, ref } from 'vue'
   import { useHabitsStore } from '@/stores/habits'
   import { useHomeAnimation } from '@/composables/useHomeAnimation'
+  import EmptyHabits from "@/components/EmptyHabits.vue";
 
   const formattedDate = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long'})
   const formattedWeekday = new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
@@ -46,18 +47,19 @@
 
   const currentStreak = computed(() => {
     let streak = 0
-    const formattedDate = new Date()
+    const date = new Date()
 
     while (true) {
-      const key = formattedDate.toISOString().slice(0, 10)
+      const key = date.toISOString().slice(0, 10)
       const hasCompletion = habitsStore.habits.some(h => h.completedDates.includes(key))
       if (!hasCompletion) break
       streak++
-      formattedDate.setDate(formattedDate.getDate() - 1)
+      date.setDate(date.getDate() - 1)
     }
 
     return streak
   })
+
 </script>
 
 <template>
@@ -65,8 +67,8 @@
     <div class="habit-dashboard__habits">
       <img ref="plant" class="habit-dashboard__plant-decoration" src="/src/assets/img/potted-plant.png" alt="plant">
       <div ref="habitsCard" class="habit-dashboard__habits-card">
-        <h1>Привычки сегодня</h1>
-        <HabitsListByDate :date="today"></HabitsListByDate>
+        <EmptyHabits v-if="habitsStore.isHabitsEmpty"></EmptyHabits>
+        <HabitsListByDate v-else :date="today" title="Привычки на сегодня"></HabitsListByDate>
       </div>
     </div>
 
@@ -134,8 +136,8 @@
       0 3px 12px rgba(90,60,20,.12),
       inset 0 0 30px rgba(181,145,90,.08);
   border: 1px solid rgba(180,150,110,.15);
-  font-size: 18px;
-  font-family: 'Nunito', sans-serif;
+  font-size: 21px;
+  font-family: 'Caveat', cursive;
   color: #5a4a3a;
 
   &:hover {
@@ -160,10 +162,6 @@
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: inherit;
-    box-shadow:
-        inset 0 0 40px rgba(170,120,60,.08);
-    pointer-events: none;
     top: -18px;
     left: 50%;
     transform: translateX(-50%) rotate(-7deg);
@@ -187,7 +185,37 @@
     display: flex;
     padding-top: 40px;
     gap: 30px;
-    background: #f5f0e4;
+
+  :deep(img.empty-habits__img) {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    margin: 21px auto;
+    object-fit: contain;
+  }
+
+  .stat-card--completed,
+  .stat-card--progress,
+  .stat-card--streak {
+    background: #FFFBF7;
+  }
+
+  h1 {
+    display: block;
+    margin-bottom: 40px;
+
+    &:after {
+      content:"";
+      position:absolute;
+      top:40px;
+      right: 28px;
+      transform:translateX(-50%) rotate(-7deg);
+      width:55px;
+      height:90px;
+      background:url("/src/assets/img/flower.png") center/contain no-repeat;
+    }
+  }
 
     &__quote-flower {
       position: absolute;
@@ -221,14 +249,12 @@
   position: relative;
 }
 
-
-
 .habit-dashboard__plant-decoration {
   position: absolute;
   left: -29px;
   bottom: 0;
   width: 134px;
-  z-index: 0;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -238,7 +264,7 @@
   flex-direction: column;
   box-sizing: border-box;
   position: relative;
-  padding: 50px;
+  padding: 40px;
   border-radius: 9px;
   box-shadow:
       0 3px 10px rgba(90, 70, 40, .08),
@@ -281,6 +307,7 @@
 
   &:hover {
     transform: translateY(-6px);
+    cursor: pointer;
     box-shadow:
         0 8px 20px rgba(90, 70, 40, .15),
         inset 0 1px rgba(255,255,255,.6);
@@ -295,7 +322,7 @@
 }
 
 .habit-dashboard__date {
-    font-size: 18px;
+    font-size: 17px;
     color: #807e7c;
     font-weight: 600;
     align-self: flex-end;
@@ -303,35 +330,20 @@
 }
 
 .habit-dashboard__subtitle {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .habit-dashboard__habits-card {
   padding: 72px 79px;
   position: relative;
   z-index: 1;
-  height: 673px;
+  height: 646px;
   max-width: 492px;
   width: 100%;
   margin-left: auto;
   background: url('/src/assets/img/note-today.webp') center / contain no-repeat;
   box-sizing: border-box;
   transform-origin: top center;
-
-  h1 {
-    margin-bottom: 40px;
-
-    &:after {
-      content:"";
-      position:absolute;
-      top:40px;
-      right: 28px;
-      transform:translateX(-50%) rotate(-7deg);
-      width:55px;
-      height:90px;
-      background:url("/src/assets/img/flower.png") center/contain no-repeat;
-    }
-  }
 
   &::after{
     content:"";
@@ -357,13 +369,14 @@
   display: flex;
   gap: 37px;
   align-items:flex-start;
+  margin-bottom: 30px;
 
   .stat-card:nth-child(1){
     transform:rotate(-2deg);
   }
 
   .stat-card:nth-child(2){
-    margin-top:18px;
+    //margin-top:18px;
     transform:rotate(.8deg);
   }
 
@@ -384,6 +397,10 @@
   align-items: center;
   gap: 16px;
   justify-content: space-between;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .habit-dashboard__cup-decoration {

@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { Habit } from '@/types/habits'
 
 export const useHabitsStore = defineStore('habits', () => {
     const habits = ref<Habit[]>([])
-
+    const isHabitsEmpty = computed(() => habits.value.length === 0)
     const load = () => {
         const data = localStorage.getItem('habits')
 
@@ -86,6 +86,7 @@ export const useHabitsStore = defineStore('habits', () => {
 
     return {
         habits,
+        isHabitsEmpty,
         load,
         addHabit,
         removeHabit,

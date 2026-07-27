@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useHabitsStore } from '@/stores/habits'
 import { getMonthDays } from '@/utils/dates'
 import HabitsListByDate from "@/components/HabitsListByDate.vue";
+import EmptyHabits from "@/components/EmptyHabits.vue";
 
 const habitsStore = useHabitsStore()
 
@@ -65,6 +66,11 @@ function shiftMonth(step: number) {
     1
   )
 }
+
+const emptyHabitsContent = {
+  title: 'Пока у тебя нет привычек.',
+  description: 'Добавь первую привычку и начни свой путь к маленьким победам!',
+}
 </script>
 
 <template>
@@ -106,8 +112,12 @@ function shiftMonth(step: number) {
       </section>
 
       <aside v-if="selectedDate" class="habit-calendar__sidebar">
-        <h3 class="habit-calendar__sidebar-title">{{ formatDateRu(selectedDate) }}</h3>
-        <HabitsListByDate :date="selectedDate"></HabitsListByDate>
+        <EmptyHabits v-if="habitsStore.isHabitsEmpty">
+        </EmptyHabits>
+        <div v-else class="habit-calendar__sidebar-wrap">
+            <h3 class="habit-calendar__sidebar-title">{{ formatDateRu(selectedDate) }}</h3>
+            <HabitsListByDate :date="selectedDate"></HabitsListByDate>
+        </div>
       </aside>
     </div>
   </div>
@@ -119,8 +129,12 @@ function shiftMonth(step: number) {
   display: flex;
   gap: 40px;
   padding: 40px;
-  background: #f5f0e4;
   min-width: 0;
+
+  :deep(.empty-habits__img) {
+    width: 246px;
+    margin: 20px 30px 30px;
+  }
 
   h1 {
     margin-bottom: 40px ;
