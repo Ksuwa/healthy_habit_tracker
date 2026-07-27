@@ -12,7 +12,10 @@ const habitsStore = useHabitsStore()
 
 <template>
     <div class="habits-page">
-      <EmptyHabits v-if="habitsStore.isHabitsEmpty"></EmptyHabits>
+      <template v-if="habitsStore.isHabitsEmpty">
+        <h1>Мои привычки</h1>
+        <EmptyHabits/>
+      </template>
       <template v-else class="habit-page__wrap">
         <div class="habits-page__header">
           <h1>Мои привычки</h1>

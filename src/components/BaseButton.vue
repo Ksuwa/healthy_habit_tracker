@@ -56,5 +56,10 @@ defineEmits<{
         0 3px 8px rgba(0,0,0,.06),
         inset 0 2px 4px rgba(0,0,0,.05);
   }
+  @media (max-width: 640px) {
+    .base-btn {
+      font-size: 14px;
+    }
+  }
 }
 </style>

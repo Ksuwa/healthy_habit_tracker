@@ -32,7 +32,7 @@
   const hoveredIndex = ref<number | null>(null)
   const todayColIndex = computed(() => days.value.indexOf(todayKey))
   const dayGridStyle = computed(() => ({
-    gridTemplateColumns: `repeat(${days.value.length}, 42px)`
+    gridTemplateColumns: `repeat(${days.value.length}, var(--day-width, 42px))`
   }))
   const monthLabel = computed(() => {
     const label = selectedMonth.value.toLocaleDateString('ru-RU', {
@@ -411,14 +411,10 @@
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  opacity: 1;
+  transition: background 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
   padding: 0;
-}
-
-.habit-item:hover .delete-btn {
-  opacity: 1;
 }
 
 .delete-btn:hover {
@@ -430,6 +426,80 @@
   position: relative;
   background: rgba(128, 185, 24, 0.12);
   box-shadow: 0 -9px 0 0 rgba(128, 185, 24, 0.12);
+}
+
+@media (max-width: 1024px) {
+  .table {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .habit-cell {
+    padding: 0 10px;
+  }
+
+  .habit-name {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    grid-template-columns: 140px minmax(0, 1fr);
+    padding: 10px;
+    --day-width: 38px;
+  }
+
+  .habit-cell {
+    padding: 0 8px;
+  }
+
+  .habit-name {
+    font-size: 14px;
+  }
+
+  .streak {
+    font-size: 14px;
+  }
+
+  .month-label {
+    min-width: auto;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .table-wrapper {
+    padding: 16px 0;
+  }
+
+  .table {
+    grid-template-columns: 120px minmax(0, 1fr);
+    padding: 8px;
+    --day-width: 34px;
+  }
+
+  .habit-cell {
+    padding: 0 6px;
+  }
+
+  .habit-name {
+    font-size: 12px;
+  }
+
+  .streak {
+    font-size: 12px;
+  }
+
+  .habit-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .delete-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
 }
 
 </style>

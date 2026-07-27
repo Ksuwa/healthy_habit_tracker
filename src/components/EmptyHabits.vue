@@ -42,4 +42,27 @@
     margin-bottom: 30px;
   }
 }
+
+@media (max-width: 640px) {
+  .img.empty-habits__img {
+    max-width: 220px;
+  }
+
+  .empty-habits {
+    &__description {
+      margin-bottom: 18px;
+      font-size: 16px;
+    }
+
+    &__title {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .base-btn {
+      font-size: 15px;
+    }
+  }
+
+}
 </style>

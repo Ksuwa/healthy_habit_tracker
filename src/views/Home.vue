@@ -186,7 +186,7 @@
     padding-top: 40px;
     gap: 30px;
 
-  :deep(img.empty-habits__img) {
+  :deep(.empty-habits__img) {
     display: block;
     width: 100%;
     max-width: 260px;
@@ -334,6 +334,7 @@
 }
 
 .habit-dashboard__habits-card {
+  min-width: 250px;
   padding: 72px 79px;
   position: relative;
   z-index: 1;
@@ -376,7 +377,6 @@
   }
 
   .stat-card:nth-child(2){
-    //margin-top:18px;
     transform:rotate(.8deg);
   }
 
@@ -411,7 +411,6 @@
 @media (max-width: 1024px) {
   .habit-dashboard {
     flex-direction: column;
-    padding: 0 20px;
     align-items: center;
   }
 
@@ -423,6 +422,10 @@
 
   .habit-dashboard__habits-card {
     margin-right: auto;
+
+    &::after {
+      width: 73px;
+    }
   }
 }
 
@@ -433,23 +436,69 @@
 }
 
 @media (max-width: 640px) {
-  .habit-dashboard__stats {
-    flex-direction: column;
+  .habit-dashboard {
+    &__stats {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__habits-card {
+      height: auto;
+      background-size: cover;
+
+      &::after {
+        width: 60px;
+        height: 22px;
+        top: -6px;
+      }
+
+      &:has(.empty-habits) {
+        padding: 32px 20px;
+      }
+    }
+
+    &__welcome-card {
+      height: 100%;
+      min-height: 257px;
+      padding: 70px 20px 20px;
+    }
+
+    &__flower-decoration {
+      display: none;
+    }
+
+    &__motivation {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__plant-decoration {
+      width: 100px;
+    }
+
+    .empty-habits {
+      :deep(.empty-habits__title) {
+        font-size: 20px;
+      }
+
+      :deep(.empty-habits__img) {
+        max-width: 160px;
+      }
+
+      :deep(.empty-habits__description) {
+        padding: 0 37px;
+      }
+
+      :deep(.base-btn) {
+        padding: 8px 16px;
+      }
+    }
   }
 
-  .habit-dashboard__habits-card {
-    padding: 50px 105px;
-    height: auto;
-  }
-
-  .habit-dashboard__welcome-card {
-    height: 100%;
-    min-height: 257px;
-    padding: 70px 0 0;
-  }
-
-  .habit-dashboard__flower-decoration {
-    display: none;
+  @media (max-width: 450px) {
+    .habit-dashboard__plant-decoration {
+      width: 75px;
+    }
   }
 }
 </style>

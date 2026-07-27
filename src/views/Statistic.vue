@@ -118,9 +118,11 @@ const habitCompletions = computed(() => {
 
 <template>
   <div class="statistic-page">
-    <EmptyHabits v-if="habitsStore.isHabitsEmpty"></EmptyHabits>
-    <template v-else>
+    <template v-if="habitsStore.isHabitsEmpty">
       <h1>Моя статистика</h1>
+      <EmptyHabits/>
+    </template>
+    <template v-else>
       <div class="statistic-page__cards">
         <StatCard
             title="Мой прогресс"

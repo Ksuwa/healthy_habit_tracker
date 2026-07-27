@@ -287,4 +287,105 @@ const emptyHabitsContent = {
   }
 }
 
+@media (max-width: 768px) {
+  .habit-calendar {
+    padding: 16px 20px;
+    gap: 24px;
+
+    &__day {
+      min-height: unset;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    &__date {
+      font-size: 16px;
+    }
+
+    &__weekday {
+      font-size: 13px;
+      padding: 4px 0;
+    }
+
+    &__dot {
+      width: 7px;
+      height: 7px;
+    }
+
+    &__grid,
+    &__week-row {
+      gap: 4px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .habit-calendar {
+    padding: 12px;
+
+    &__header {
+      gap: 12px;
+    }
+
+    &__month-title {
+      font-size: 20px;
+      min-width: unset;
+    }
+
+    &__nav-btn {
+      width: 32px;
+      height: 32px;
+      font-size: 20px;
+    }
+
+    &__day {
+      min-height: unset;
+      aspect-ratio: 1;
+      padding: 2px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+
+    &__date {
+      font-size: 13px;
+    }
+
+    &__weekday {
+      font-size: 11px;
+    }
+
+    &__sidebar {
+      padding: 16px;
+    }
+
+    :deep(.check-row) {
+      font-size: 18px;
+    }
+
+    :deep(.check-list) {
+      gap: 12px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .habit-calendar {
+    padding: 8px;
+    gap: 16px;
+
+    &__grid,
+    &__week-row {
+      gap: 3px;
+    }
+
+    &__date {
+      font-size: 11px;
+    }
+
+    :deep(.check-row) {
+      font-size: 15px;
+    }
+  }
+}
+
 </style>
