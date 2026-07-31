@@ -29,42 +29,44 @@ export function useHomeAnimation({
 
         tl
             .from(habitsCard.value, {
-                y: -120,
-                rotation: -6,
+                y: -90,
+                rotation: -4,
                 opacity: 0,
-                duration: 1.2,
-                ease: 'elastic.out(1, 0.65)'
+                duration: 1.1,
+                ease: 'power3.out',
+                transformOrigin: 'top center'
             })
 
             .from(
                 plant.value,
                 {
-                    y: 40,
+                    y: 30,
                     opacity: 0,
-                    duration: .6
+                    duration: .7
                 },
-                "-=1"
+                "-=0.9"
             )
 
             .from(
                 noteCard.value,
                 {
-                    x: 60,
+                    x: 50,
                     opacity: 0,
-                    rotation: 3,
-                    duration: .6
+                    rotation: 2,
+                    duration: .7,
+                    ease: 'power3.out'
                 },
-                "-=0.8"
+                "-=0.7"
             )
 
             .from(
                 statsGrid.value?.children || [],
                 {
-                    y: 25,
+                    y: 18,
                     opacity: 0,
-                    stagger: .15,
-                    duration: .5,
-                    ease: 'back.out(1.8)'
+                    stagger: .2,
+                    duration: .8,
+                    ease: 'power2.out'
                 },
                 "-=0.2"
             )
@@ -72,33 +74,34 @@ export function useHomeAnimation({
             .from(
                 motivationCard.value,
                 {
-                    y: 20,
+                    y: 15,
                     opacity: 0,
-                    rotation: -2,
-                    duration: .4
-                }
+                    rotation: -1.5,
+                    duration: .5
+                },
+                "-=0.1"
             )
 
             .from(
                 cup.value,
                 {
-                    scale: .6,
-                    rotate: -12,
+                    scale: .7,
+                    rotate: -8,
                     opacity: 0,
                     duration: .5,
-                    ease: 'back.out(2)'
+                    ease: 'power2.out'
                 },
-                "-=0.2"
+                "-=0.25"
             )
-          tl.to(habitsCard.value, {
-            rotation: 1,
-            duration: .15
-          })
-              .to(habitsCard.value, {
-                rotation: 0,
-                duration: .25,
-                ease: "power2.out"
-              })
+            tl.to(habitsCard.value, {
+                keyframes: [
+                    { rotation: 0.8, duration: 1.1, ease: 'sine.out' },
+                    { rotation: -0.5, duration: 1.5, ease: 'sine.inOut' },
+                    { rotation: 0.4, duration: 1.3, ease: 'sine.inOut' },
+                    { rotation: -0.2, duration: 1.7, ease: 'sine.inOut' },
+                    { rotation: 0, duration: 1.6, ease: 'sine.out' }
+                ]
+            })
     }
 
     return {

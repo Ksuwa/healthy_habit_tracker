@@ -65,7 +65,7 @@
 <template>
   <div class="habit-dashboard">
     <div class="habit-dashboard__habits">
-      <img ref="plant" class="habit-dashboard__plant-decoration" src="/src/assets/img/potted-plant.png" alt="plant">
+      <img ref="plant" class="habit-dashboard__plant-decoration" src="/src/assets/img/potted-plant.webp" alt="plant">
       <div ref="habitsCard" class="habit-dashboard__habits-card">
         <EmptyHabits v-if="habitsStore.isHabitsEmpty"></EmptyHabits>
         <HabitsListByDate v-else :date="today" title="Привычки на сегодня"></HabitsListByDate>
